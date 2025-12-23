@@ -35,8 +35,18 @@ const initialEnquiries = [
     { id: 2, name: "Charlie Green", phone: "555-0124", subject: "Treatment Cost", date: "2024-03-20", status: "Closed" },
 ];
 
+
+interface Enquiry {
+    id: number;
+    name: string;
+    phone: string;
+    subject: string;
+    date: string;
+    status: string;
+}
+
 const Enquiries = () => {
-    const [enquiries, setEnquiries] = useState(initialEnquiries);
+    const [enquiries, setEnquiries] = useState<Enquiry[]>(initialEnquiries);
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const { toast } = useToast();
 
@@ -47,7 +57,7 @@ const Enquiries = () => {
         status: "Open"
     });
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-    const [editingEnquiry, setEditingEnquiry] = useState<any>(null);
+    const [editingEnquiry, setEditingEnquiry] = useState<Enquiry | null>(null);
 
     const handleAddEnquiry = () => {
         if (!newEnquiry.name || !newEnquiry.phone || !newEnquiry.subject) {

@@ -69,9 +69,21 @@ const AppointmentList = () => {
     type: "",
   });
 
+
+  interface AppointmentFormState {
+    patient: string;
+    age: string;
+    bloodType: string;
+    doctor: string;
+    time: string;
+    type: string;
+    date: Date | undefined;
+    status: string;
+  }
+
   const [editingAppointment, setEditingAppointment] = useState<Appointment | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [editFormData, setEditFormData] = useState<any>({});
+  const [editFormData, setEditFormData] = useState<Partial<AppointmentFormState>>({});
 
   const [viewingAppointment, setViewingAppointment] = useState<Appointment | null>(null);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);

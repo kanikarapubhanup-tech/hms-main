@@ -30,7 +30,18 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 
-const initialStock = [
+
+interface InventoryItem {
+    id: number;
+    item: string;
+    category: string;
+    store: string;
+    quantity: number;
+    minLevel: number;
+    status: string;
+}
+
+const initialStock: InventoryItem[] = [
     { id: 1, item: "Syringes (5ml)", category: "Consumables", store: "Main Store", quantity: 500, minLevel: 100, status: "In Stock" },
     { id: 2, item: "Cotton Rolls", category: "Consumables", store: "Main Store", quantity: 45, minLevel: 50, status: "Low Stock" },
     { id: 3, item: "Surgical Gloves", category: "Surgical", store: "OT Store", quantity: 1200, minLevel: 200, status: "In Stock" },
@@ -38,10 +49,10 @@ const initialStock = [
 ];
 
 const Inventory = () => {
-    const [stockItems, setStockItems] = useState(initialStock);
+    const [stockItems, setStockItems] = useState<InventoryItem[]>(initialStock);
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-    const [editingItem, setEditingItem] = useState<any>(null);
+    const [editingItem, setEditingItem] = useState<InventoryItem | null>(null);
     const { toast } = useToast();
 
     const [newItem, setNewItem] = useState({
@@ -94,8 +105,9 @@ const Inventory = () => {
         });
     };
 
+
     const handleEditItem = () => {
-        if (!editingItem.item || !editingItem.quantity) {
+        if (!editingItem?.item || editingItem.quantity === undefined) {
             toast({
                 title: "Error",
                 description: "Please fill in all required fields.",
@@ -104,8 +116,8 @@ const Inventory = () => {
             return;
         }
 
-        const quantity = parseInt(editingItem.quantity);
-        const minLevel = parseInt(editingItem.minLevel) || 0;
+        const quantity = editingItem.quantity;
+        const minLevel = editingItem.minLevel || 0;
         let status = "In Stock";
         if (quantity === 0) status = "Out of Stock";
         else if (quantity <= minLevel) status = "Low Stock";
@@ -292,7 +304,7 @@ const Inventory = () => {
                                     id="edit-quantity"
                                     type="number"
                                     value={editingItem.quantity}
-                                    onChange={(e) => setEditingItem({ ...editingItem, quantity: e.target.value })}
+                                    onChange={(e) => setEditingItem({ ...editingItem, quantity: parseInt(e.target.value) || 0 })}
                                     className="col-span-3"
                                 />
                             </div>
@@ -304,7 +316,7 @@ const Inventory = () => {
                                     id="edit-minLevel"
                                     type="number"
                                     value={editingItem.minLevel}
-                                    onChange={(e) => setEditingItem({ ...editingItem, minLevel: e.target.value })}
+                                    onChange={(e) => setEditingItem({ ...editingItem, minLevel: parseInt(e.target.value) || 0 })}
                                     className="col-span-3"
                                 />
                             </div>

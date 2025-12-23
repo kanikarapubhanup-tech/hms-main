@@ -84,14 +84,40 @@ const initialOpdPatients = [
 
 const COUNTRIES = ["India", "USA", "UK", "Australia", "Canada"];
 
+
+interface OPDPatient {
+    opdNo: string;
+    name: string;
+    age: string;
+    gender: string;
+    doctor: string;
+    appointmentDate: string;
+    appointmentTime: string;
+    contactNumber: string;
+    address: string;
+    charge: string;
+    payment: string;
+    diagnosis: string;
+    treatment: string;
+    medications: string;
+    visitAgainDate: string;
+    visitAgainTime: string;
+    specialInstructions: string;
+    country: string;
+    state: string;
+    district: string;
+    mandal: string;
+    pincode: string;
+}
+
 const OPDPortal = () => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [patients, setPatients] = useState(initialOpdPatients);
+    const [patients, setPatients] = useState<OPDPatient[]>(initialOpdPatients);
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-    const [selectedPatient, setSelectedPatient] = useState<any>(null);
-    const [editingPatient, setEditingPatient] = useState<any>(null);
+    const [selectedPatient, setSelectedPatient] = useState<OPDPatient | null>(null);
+    const [editingPatient, setEditingPatient] = useState<OPDPatient | null>(null);
     const { toast } = useToast();
 
     // Updated state to match "Patient Out Details Form"

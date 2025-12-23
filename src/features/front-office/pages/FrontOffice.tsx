@@ -23,25 +23,44 @@ import {
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 
+
+interface Visitor {
+    id: number;
+    name: string;
+    purpose: string;
+    phone: string;
+    date: string;
+    status: string;
+}
+
+interface CallLog {
+    id: number;
+    name: string;
+    phone: string;
+    date: string;
+    description: string;
+    type: string;
+}
+
 const FrontOffice = () => {
     const { toast } = useToast();
     const [searchTerm, setSearchTerm] = useState("");
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-    const [editingVisitor, setEditingVisitor] = useState<any>(null);
-    const [visitorsList, setVisitorsList] = useState([
+    const [editingVisitor, setEditingVisitor] = useState<Visitor | null>(null);
+    const [visitorsList, setVisitorsList] = useState<Visitor[]>([
         { id: 1, name: "John Smith", purpose: "Visit Patient", phone: "123-456-7890", date: "2024-03-20 09:00 AM", status: "Checked In" },
         { id: 2, name: "Sarah Doe", purpose: "Appointment", phone: "987-654-3210", date: "2024-03-20 09:30 AM", status: "Waiting" },
         { id: 3, name: "Mike Ross", purpose: "Inquiry", phone: "456-123-7890", date: "2024-03-20 10:00 AM", status: "Checked Out" },
     ]);
 
-    const [callsList, setCallsList] = useState([
+    const [callsList, setCallsList] = useState<CallLog[]>([
         { id: 1, name: "Alice Brown", phone: "555-0101", date: "2024-03-20 10:15 AM", description: "Inquiry about room rates", type: "Incoming" },
         { id: 2, name: "Bob Wilson", phone: "555-0202", date: "2024-03-20 11:30 AM", description: "Follow up on appointment", type: "Outgoing" },
     ]);
 
     const [isCallLogDialogOpen, setIsCallLogDialogOpen] = useState(false);
-    const [editingCall, setEditingCall] = useState<any>(null);
+    const [editingCall, setEditingCall] = useState<CallLog | null>(null);
     const [isEditCallDialogOpen, setIsEditCallDialogOpen] = useState(false);
 
     const [newVisitor, setNewVisitor] = useState({

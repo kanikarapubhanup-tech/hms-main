@@ -47,14 +47,36 @@ const initialIpdPatients = [
 
 const COUNTRIES = ["India", "USA", "UK", "Australia", "Canada"];
 
+
+interface IPDPatient {
+    ipdNo: string;
+    name: string;
+    age: string;
+    gender: string;
+    doctor: string;
+    admissionDate: string;
+    bed: string;
+    billStatus: string;
+    weight: string;
+    bp: string;
+    height: string;
+    symptoms: string;
+    notes: string;
+    country: string;
+    state: string;
+    district: string;
+    mandal: string;
+    pincode: string;
+}
+
 const IPDPortal = () => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [patients, setPatients] = useState(initialIpdPatients);
+    const [patients, setPatients] = useState<IPDPatient[]>(initialIpdPatients);
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-    const [selectedPatient, setSelectedPatient] = useState<typeof initialIpdPatients[0] | null>(null);
-    const [editingPatient, setEditingPatient] = useState<any>(null);
+    const [selectedPatient, setSelectedPatient] = useState<IPDPatient | null>(null);
+    const [editingPatient, setEditingPatient] = useState<IPDPatient | null>(null);
     const { toast } = useToast();
 
     const [newAdmission, setNewAdmission] = useState({

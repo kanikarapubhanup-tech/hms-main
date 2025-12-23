@@ -25,12 +25,25 @@ import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
+
+interface DiagnosisRecord {
+    id: number;
+    patient: string;
+    patientId: string;
+    doctor: string;
+    diagnosis: string;
+    date: string;
+    symptoms: string;
+    notes: string;
+    status: string;
+}
+
 const Diagnosis = () => {
-    const [selectedDiagnosis, setSelectedDiagnosis] = useState<any>(null);
+    const [selectedDiagnosis, setSelectedDiagnosis] = useState<DiagnosisRecord | null>(null);
     const [isDetailsOpen, setIsDetailsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
 
-    const [diagnosisRecords, setDiagnosisRecords] = useState([
+    const [diagnosisRecords, setDiagnosisRecords] = useState<DiagnosisRecord[]>([
         {
             id: 1,
             patient: "John Doe",
@@ -68,7 +81,7 @@ const Diagnosis = () => {
 
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-    const [editingDiagnosis, setEditingDiagnosis] = useState<any>(null);
+    const [editingDiagnosis, setEditingDiagnosis] = useState<DiagnosisRecord | null>(null);
     const { toast } = useToast();
     const [newDiagnosis, setNewDiagnosis] = useState({
         patient: "",

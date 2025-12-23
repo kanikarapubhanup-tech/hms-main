@@ -44,9 +44,21 @@ const initialPurchases = [
     { id: 3, purchaseNo: "PUR-2024-003", total: 750, tax: 37.5, net: 787.5, status: "Paid", mode: "Card" },
 ];
 
+
+interface Purchase {
+    id: number;
+    purchaseNo: string;
+    total: number;
+    tax: number;
+    net: number;
+    status: string;
+    mode: string;
+    supplier?: string;
+}
+
 const PurchaseMedicines = () => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [purchases, setPurchases] = useState(initialPurchases);
+    const [purchases, setPurchases] = useState<Purchase[]>(initialPurchases);
     const { toast } = useToast();
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [newPurchase, setNewPurchase] = useState({
@@ -56,7 +68,7 @@ const PurchaseMedicines = () => {
         mode: "Cash"
     });
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-    const [editingPurchase, setEditingPurchase] = useState<any>(null);
+    const [editingPurchase, setEditingPurchase] = useState<Purchase | null>(null);
 
     const handleAddPurchase = () => {
         if (!newPurchase.supplier || !newPurchase.total) {
@@ -100,9 +112,9 @@ const PurchaseMedicines = () => {
 
         const updatedPurchase = {
             ...editingPurchase,
-            total: parseFloat(editingPurchase.total),
-            tax: parseFloat(editingPurchase.tax || "0"),
-            net: parseFloat(editingPurchase.total) + parseFloat(editingPurchase.tax || "0"),
+            total: editingPurchase.total,
+            tax: editingPurchase.tax,
+            net: editingPurchase.total + (editingPurchase.tax || 0),
         };
 
         setPurchases(purchases.map(p => p.id === editingPurchase.id ? updatedPurchase : p));
@@ -205,7 +217,7 @@ const PurchaseMedicines = () => {
                                         <Input
                                             type="number"
                                             value={editingPurchase.total}
-                                            onChange={(e) => setEditingPurchase({ ...editingPurchase, total: e.target.value })}
+                                            onChange={(e) => setEditingPurchase({ ...editingPurchase, total: parseFloat(e.target.value) || 0 })}
                                         />
                                     </div>
                                     <div className="space-y-2">
@@ -213,7 +225,7 @@ const PurchaseMedicines = () => {
                                         <Input
                                             type="number"
                                             value={editingPurchase.tax}
-                                            onChange={(e) => setEditingPurchase({ ...editingPurchase, tax: e.target.value })}
+                                            onChange={(e) => setEditingPurchase({ ...editingPurchase, tax: parseFloat(e.target.value) || 0 })}
                                         />
                                     </div>
                                 </div>

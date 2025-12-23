@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Pill, Search, Plus, Eye, Pencil, Trash } from "lucide-react";
+import { Pill, Search, Plus, Eye, Pencil, Trash, MoreHorizontal } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useState } from "react";
@@ -28,8 +28,17 @@ const initialRx = [
     { id: "RX-002", patient: "Jane Smith", doctor: "Dr. Brown", date: "2024-03-20", medicines: "Ibuprofen" },
 ];
 
+
+interface Prescription {
+    id: string;
+    patient: string;
+    doctor: string;
+    date: string;
+    medicines: string;
+}
+
 const Prescriptions = () => {
-    const [rx, setRx] = useState(initialRx);
+    const [rx, setRx] = useState<Prescription[]>(initialRx);
     const [searchTerm, setSearchTerm] = useState("");
     const { toast } = useToast();
 
@@ -43,7 +52,7 @@ const Prescriptions = () => {
         medicines: ""
     });
 
-    const [editingRx, setEditingRx] = useState<any>(null);
+    const [editingRx, setEditingRx] = useState<Prescription | null>(null);
 
     const handleAddRx = () => {
         if (!newRx.patient || !newRx.doctor || !newRx.medicines) {

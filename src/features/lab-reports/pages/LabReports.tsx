@@ -35,8 +35,18 @@ const initialReports = [
     { id: 2, patient: "Jane Smith", test: "X-Ray Chest", doctor: "Dr. Brown", date: "2024-03-21", status: "Pending" },
 ];
 
+
+interface LabReport {
+    id: number;
+    patient: string;
+    test: string;
+    doctor: string;
+    date: string;
+    status: string;
+}
+
 const LabReports = () => {
-    const [reports, setReports] = useState(initialReports);
+    const [reports, setReports] = useState<LabReport[]>(initialReports);
     const [searchTerm, setSearchTerm] = useState("");
     const { toast } = useToast();
 
@@ -51,7 +61,7 @@ const LabReports = () => {
         status: "Pending"
     });
 
-    const [editingReport, setEditingReport] = useState<any>(null);
+    const [editingReport, setEditingReport] = useState<LabReport | null>(null);
 
     const handleAddReport = () => {
         if (!newReport.patient || !newReport.test || !newReport.doctor) {

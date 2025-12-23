@@ -57,8 +57,22 @@ const initialMeetings = [
     }
 ];
 
+
+interface Meeting {
+    id: number;
+    title: string;
+    date: string;
+    startTime: string;
+    endTime: string;
+    department: string;
+    location: string;
+    type: string;
+    status: string;
+    agenda: string;
+}
+
 const MeetingStatus = () => {
-    const [meetings, setMeetings] = useState(initialMeetings);
+    const [meetings, setMeetings] = useState<Meeting[]>(initialMeetings);
     const { toast } = useToast();
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -74,7 +88,7 @@ const MeetingStatus = () => {
         agenda: ""
     });
 
-    const [editingMeeting, setEditingMeeting] = useState<any>(null);
+    const [editingMeeting, setEditingMeeting] = useState<Meeting | null>(null);
 
     const handleSchedule = () => {
         if (!newMeeting.title || !newMeeting.startTime || !newMeeting.endTime || !newMeeting.department) {

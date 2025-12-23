@@ -51,12 +51,30 @@ import { INDIAN_STATES, DISTRICTS, MANDALS } from "@/data/indianAddressData";
 
 const COUNTRIES = ["India", "USA", "UK", "Australia", "Canada"];
 
+
+interface Patient {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  age: number;
+  gender: string;
+  bloodGroup: string;
+  lastVisit: string;
+  status: string;
+  country: string;
+  state: string;
+  district: string;
+  mandal: string;
+  pincode: string;
+}
+
 const PatientList = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [patients, setPatients] = useState(initialPatients);
+  const [patients, setPatients] = useState<Patient[]>(initialPatients);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [editingPatient, setEditingPatient] = useState<any>(null);
+  const [editingPatient, setEditingPatient] = useState<Patient | null>(null);
   const { toast } = useToast();
 
   const [newPatient, setNewPatient] = useState({
@@ -410,7 +428,7 @@ const PatientList = () => {
                       id="edit-age"
                       type="number"
                       value={editingPatient.age}
-                      onChange={(e) => setEditingPatient({ ...editingPatient, age: e.target.value })}
+                      onChange={(e) => setEditingPatient({ ...editingPatient, age: parseInt(e.target.value) || 0 })}
                     />
                   </div>
                 </div>

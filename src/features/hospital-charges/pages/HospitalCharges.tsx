@@ -30,7 +30,18 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 
-const initialCharges = [
+
+interface HospitalCharge {
+    id: number;
+    type: string;
+    category: string;
+    name: string;
+    code: string;
+    charge: number;
+    tax: number;
+}
+
+const initialCharges: HospitalCharge[] = [
     { id: 1, type: "OPD", category: "Consultation", name: "General Consultation", code: "OPD-001", charge: 500, tax: 18 },
     { id: 2, type: "IPD", category: "Room Rent", name: "Private Ward AC", code: "IPD-RM-01", charge: 2500, tax: 12 },
     { id: 3, type: "Pathology", category: "Blood Test", name: "CBC", code: "PATH-CBC", charge: 350, tax: 0 },
@@ -39,10 +50,10 @@ const initialCharges = [
 
 const HospitalCharges = () => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [charges, setCharges] = useState(initialCharges);
+    const [charges, setCharges] = useState<HospitalCharge[]>(initialCharges);
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-    const [editingCharge, setEditingCharge] = useState<any>(null);
+    const [editingCharge, setEditingCharge] = useState<HospitalCharge | null>(null);
     const { toast } = useToast();
 
     const [newCharge, setNewCharge] = useState({
@@ -55,7 +66,7 @@ const HospitalCharges = () => {
     });
 
     const handleEditCharge = () => {
-        if (!editingCharge.name || !editingCharge.charge) {
+        if (!editingCharge?.name || !editingCharge.charge) {
             toast({
                 title: "Error",
                 description: "Please fill in all required fields.",
@@ -66,8 +77,8 @@ const HospitalCharges = () => {
 
         setCharges(charges.map(c => c.id === editingCharge.id ? {
             ...editingCharge,
-            charge: parseFloat(editingCharge.charge),
-            tax: parseFloat(editingCharge.tax) || 0
+            charge: editingCharge.charge,
+            tax: editingCharge.tax || 0
         } : c));
         setIsEditDialogOpen(false);
         setEditingCharge(null);
@@ -307,7 +318,7 @@ const HospitalCharges = () => {
                                         id="edit-charge"
                                         type="number"
                                         value={editingCharge.charge}
-                                        onChange={(e) => setEditingCharge({ ...editingCharge, charge: e.target.value })}
+                                        onChange={(e) => setEditingCharge({ ...editingCharge, charge: parseFloat(e.target.value) || 0 })}
                                         className="col-span-3"
                                     />
                                 </div>
@@ -319,7 +330,7 @@ const HospitalCharges = () => {
                                         id="edit-tax"
                                         type="number"
                                         value={editingCharge.tax}
-                                        onChange={(e) => setEditingCharge({ ...editingCharge, tax: e.target.value })}
+                                        onChange={(e) => setEditingCharge({ ...editingCharge, tax: parseFloat(e.target.value) || 0 })}
                                         className="col-span-3"
                                     />
                                 </div>
@@ -376,7 +387,7 @@ const HospitalCharges = () => {
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent align="end">
                                                 <DropdownMenuItem onClick={() => {
-                                                    setEditingCharge({ ...charge, charge: charge.charge.toString(), tax: charge.tax.toString() });
+                                                    setEditingCharge(charge);
                                                     setIsEditDialogOpen(true);
                                                 }}>
                                                     <Pencil className="mr-2 h-4 w-4" />

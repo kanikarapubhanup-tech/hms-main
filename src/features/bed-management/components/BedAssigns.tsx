@@ -33,10 +33,20 @@ const initialAssigns = [
     { ipdNo: "IPD-003", patient: "Robert Brown", bed: "305", assignDate: "2024-03-05", dischargeDate: "2024-03-15", status: "Discharged" },
 ];
 
+
+interface BedAssignment {
+    ipdNo: string;
+    patient: string;
+    bed: string;
+    assignDate: string;
+    dischargeDate: string;
+    status: string;
+}
+
 const BedAssigns = () => {
-    const [assigns, setAssigns] = useState(initialAssigns);
+    const [assigns, setAssigns] = useState<BedAssignment[]>(initialAssigns);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-    const [editingAssign, setEditingAssign] = useState<any>(null);
+    const [editingAssign, setEditingAssign] = useState<BedAssignment | null>(null);
     const { toast } = useToast();
 
     const handleDischarge = (ipdNo: string) => {

@@ -22,14 +22,25 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 
+
+interface Consultation {
+    id: number;
+    title: string;
+    date: string;
+    duration: string;
+    by: string;
+    status: string;
+    details: string;
+}
+
 const LiveConsultancy = () => {
     const { toast } = useToast();
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
-    const [selectedConsultation, setSelectedConsultation] = useState<any>(null);
-    const [editingConsultation, setEditingConsultation] = useState<any>(null);
-    const [consultationsList, setConsultationsList] = useState([
+    const [selectedConsultation, setSelectedConsultation] = useState<Consultation | null>(null);
+    const [editingConsultation, setEditingConsultation] = useState<Consultation | null>(null);
+    const [consultationsList, setConsultationsList] = useState<Consultation[]>([
         { id: 1, title: "Dr. Smith - Patient Checkup", date: "2024-03-21 10:00 AM", duration: "30 mins", by: "Dr. Smith", status: "Awaiting", details: "Routine monthly checkup for heart patient." },
         { id: 2, title: "Staff Meeting", date: "2024-03-21 02:00 PM", duration: "60 mins", by: "Admin", status: "Scheduled", details: "Weekly coordination meeting for surgical department." },
     ]);

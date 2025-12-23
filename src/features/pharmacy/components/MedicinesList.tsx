@@ -31,13 +31,23 @@ const initialMedicines = [
     { id: 4, name: "Ibuprofen 400mg", brand: "Pfizer", quantity: 80, buyingPrice: 6, sellingPrice: 12 },
 ];
 
+
+interface Medicine {
+    id: number;
+    name: string;
+    brand: string;
+    quantity: number;
+    buyingPrice: number;
+    sellingPrice: number;
+}
+
 const MedicinesList = () => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [medicines, setMedicines] = useState(initialMedicines);
+    const [medicines, setMedicines] = useState<Medicine[]>(initialMedicines);
     const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-    const [editingMedicine, setEditingMedicine] = useState<any>(null);
+    const [editingMedicine, setEditingMedicine] = useState<Medicine | null>(null);
     const { toast } = useToast();
 
     const [newMedicine, setNewMedicine] = useState({
@@ -95,9 +105,9 @@ const MedicinesList = () => {
 
         const updatedMedicine = {
             ...editingMedicine,
-            quantity: parseInt(editingMedicine.quantity),
-            buyingPrice: parseFloat(editingMedicine.buyingPrice),
-            sellingPrice: parseFloat(editingMedicine.sellingPrice),
+            quantity: editingMedicine.quantity,
+            buyingPrice: editingMedicine.buyingPrice,
+            sellingPrice: editingMedicine.sellingPrice,
         };
 
         setMedicines(medicines.map(m => m.id === editingMedicine.id ? updatedMedicine : m));
@@ -279,7 +289,7 @@ const MedicinesList = () => {
                                         id="edit-quantity"
                                         type="number"
                                         value={editingMedicine.quantity}
-                                        onChange={(e) => setEditingMedicine({ ...editingMedicine, quantity: e.target.value })}
+                                        onChange={(e) => setEditingMedicine({ ...editingMedicine, quantity: parseInt(e.target.value) || 0 })}
                                         className="col-span-3"
                                     />
                                 </div>
@@ -291,7 +301,7 @@ const MedicinesList = () => {
                                         id="edit-buyingPrice"
                                         type="number"
                                         value={editingMedicine.buyingPrice}
-                                        onChange={(e) => setEditingMedicine({ ...editingMedicine, buyingPrice: e.target.value })}
+                                        onChange={(e) => setEditingMedicine({ ...editingMedicine, buyingPrice: parseFloat(e.target.value) || 0 })}
                                         className="col-span-3"
                                     />
                                 </div>
@@ -303,7 +313,7 @@ const MedicinesList = () => {
                                         id="edit-sellingPrice"
                                         type="number"
                                         value={editingMedicine.sellingPrice}
-                                        onChange={(e) => setEditingMedicine({ ...editingMedicine, sellingPrice: e.target.value })}
+                                        onChange={(e) => setEditingMedicine({ ...editingMedicine, sellingPrice: parseFloat(e.target.value) || 0 })}
                                         className="col-span-3"
                                     />
                                 </div>

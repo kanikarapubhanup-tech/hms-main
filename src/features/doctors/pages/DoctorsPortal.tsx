@@ -45,12 +45,21 @@ const initialDoctors = [
     { id: 5, name: "Dr. Lisa Taylor", specialty: "Dermatologist", consultationTime: "15 mins", availability: "Available" },
 ];
 
+
+interface Doctor {
+    id: number;
+    name: string;
+    specialty: string;
+    consultationTime: string;
+    availability: string;
+}
+
 const DoctorsPortal = () => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [doctors, setDoctors] = useState(initialDoctors);
+    const [doctors, setDoctors] = useState<Doctor[]>(initialDoctors);
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-    const [editingDoctor, setEditingDoctor] = useState<any>(null);
+    const [editingDoctor, setEditingDoctor] = useState<Doctor | null>(null);
     const { toast } = useToast();
 
     const [newDoctor, setNewDoctor] = useState({

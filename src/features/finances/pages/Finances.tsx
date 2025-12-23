@@ -35,8 +35,18 @@ const initialTransactions = [
     { id: 4, type: "Expense", amount: 12000, description: "Staff Salary Advance", category: "Payroll", date: "2024-03-15" },
 ];
 
+
+interface Transaction {
+    id: number;
+    type: string;
+    amount: number;
+    description: string;
+    category: string;
+    date: string;
+}
+
 const Finances = () => {
-    const [transactions, setTransactions] = useState(initialTransactions);
+    const [transactions, setTransactions] = useState<Transaction[]>(initialTransactions);
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
     const { toast } = useToast();
     const [newTransaction, setNewTransaction] = useState({
@@ -46,7 +56,7 @@ const Finances = () => {
         category: "General",
     });
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-    const [editingTransaction, setEditingTransaction] = useState<any>(null);
+    const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
 
     const totalIncome = transactions
         .filter(t => t.type === "Income")
@@ -108,7 +118,7 @@ const Finances = () => {
 
         setTransactions(transactions.map(t => t.id === editingTransaction.id ? {
             ...editingTransaction,
-            amount: parseFloat(editingTransaction.amount),
+            amount: editingTransaction.amount,
         } : t));
         setIsEditDialogOpen(false);
         setEditingTransaction(null);
@@ -233,7 +243,7 @@ const Finances = () => {
                                         id="edit-amount"
                                         type="number"
                                         value={editingTransaction.amount}
-                                        onChange={(e) => setEditingTransaction({ ...editingTransaction, amount: e.target.value })}
+                                        onChange={(e) => setEditingTransaction({ ...editingTransaction, amount: parseFloat(e.target.value) || 0 })}
                                         className="col-span-3"
                                         placeholder="0.00"
                                     />
